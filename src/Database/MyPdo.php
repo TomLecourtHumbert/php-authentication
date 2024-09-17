@@ -77,7 +77,7 @@ final class MyPdo extends \PDO
      * @param string|null $password Mot de passe pour la connexion BD
      * @param array|null  $options  Options du pilote BD
      */
-    private function __construct(string $dsn, string $username = null, string $password = null, array $options = null)
+    private function __construct(string $dsn, ?string $username = null, ?string $password = null, ?array $options = null)
     {
         parent::__construct($dsn, $username, $password, $options);
         // La base de données est-elle de type SQLite
@@ -134,7 +134,7 @@ final class MyPdo extends \PDO
         string $dsn,
         string $username = '',
         string $password = '',
-        array $options = []
+        array $options = [],
     ): void {
         self::$dsn = $dsn;
         self::$username = $username;
