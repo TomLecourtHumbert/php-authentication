@@ -30,6 +30,7 @@ if (!$authentication->isUserConnected()) {
     $form2 = $authentication->logoutForm('form.php', 'Déconnexion');
     $p->appendContent(<<<HTML
         {$form2}
+        <p>{$authentication->getUser()}</p>
     HTML
     );
 }

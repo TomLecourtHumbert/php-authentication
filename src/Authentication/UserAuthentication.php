@@ -2,6 +2,7 @@
 
 namespace Authentication;
 
+use Authentication\Exception\NotLoggedInException;
 use Entity\User;
 use Html\StringEscaper;
 use Service\Session;
@@ -16,6 +17,12 @@ class UserAuthentication
     private const SESSION_USER_KEY = 'user';
     private const LOGOUT_INPUT_NAME = 'logout';
     private ?User $user = null;
+
+    public function __construct()
+    {
+        $val = $this->getUserFromSession();
+        $this->user = $val;
+    }
 
     public function loginForm(string $action, string $submitText = 'OK'): string
     {
@@ -36,6 +43,7 @@ class UserAuthentication
     {
         $res = User::findByCredentials($_POST['login'], $_POST['password']);
         $this->setUser($res);
+
         return $res;
     }
 
@@ -50,6 +58,7 @@ class UserAuthentication
     public function isUserConnected(): bool
     {
         Session::start();
+
         return isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]);
     }
 
@@ -61,6 +70,7 @@ class UserAuthentication
             <button name="$logout">{$this->escapeString($text)}</button>
         </form>
         HTML;
+
         return $html;
     }
 
@@ -70,5 +80,21 @@ class UserAuthentication
         if (isset($_POST[self::LOGOUT_INPUT_NAME])) {
             unset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]);
         }
+    }
+
+    protected function getUserFromSession(): User
+    {
+        if (!isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY])) {
+            throw new NotLoggedInException("La session ne contient pas d'utilisateur");
+        }
+        return $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY];
+    }
+
+    public function getUser(): User
+    {
+        if (null == $this->user) {
+            throw new NotLoggedInException("La session ne contient pas d'utilisateur");
+        }
+        return $this->user;
     }
 }
