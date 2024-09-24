@@ -19,18 +19,20 @@ $p->appendCSS(<<<CSS
     }
 CSS
 );
-if (!$authentication->isUserConnected()) {
+
+try {
+    $user = $authentication->getUser();
+    $p->appendContent('<p>Personne connectée : '.$user->getLastName());
+    $form2 = $authentication->logoutForm('form.php', 'Déconnexion');
+    $p->appendContent(<<<HTML
+        {$form2}
+    HTML
+    );
+} catch (Authentication\Exception\NotLoggedInException $e) {
     $form = $authentication->loginForm('auth.php');
     $p->appendContent(<<<HTML
         {$form}
         <p>Pour faire un test : essai/toto
-    HTML
-    );
-} else {
-    $form2 = $authentication->logoutForm('form.php', 'Déconnexion');
-    $p->appendContent(<<<HTML
-        {$form2}
-        <p>{$authentication->getUser()}</p>
     HTML
     );
 }

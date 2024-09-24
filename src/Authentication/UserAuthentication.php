@@ -20,8 +20,11 @@ class UserAuthentication
 
     public function __construct()
     {
-        $val = $this->getUserFromSession();
-        $this->user = $val;
+        try {
+            $val = $this->getUserFromSession();
+            $this->user = $val;
+        } catch (NotLoggedInException $e) {
+        }
     }
 
     public function loginForm(string $action, string $submitText = 'OK'): string
@@ -78,15 +81,19 @@ class UserAuthentication
     {
         Session::start();
         if (isset($_POST[self::LOGOUT_INPUT_NAME])) {
+            $this->user = null;
             unset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]);
         }
     }
 
     protected function getUserFromSession(): User
     {
+        // Session::start() ; Quand on utilise $_SESSION
+        Session::start();
         if (!isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY])) {
             throw new NotLoggedInException("La session ne contient pas d'utilisateur");
         }
+
         return $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY];
     }
 
@@ -95,6 +102,7 @@ class UserAuthentication
         if (null == $this->user) {
             throw new NotLoggedInException("La session ne contient pas d'utilisateur");
         }
+
         return $this->user;
     }
 }
