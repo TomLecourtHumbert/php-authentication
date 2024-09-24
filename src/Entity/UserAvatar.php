@@ -20,7 +20,7 @@ class UserAvatar
         return $this->avatar;
     }
 
-    public function findById(int $userId): self
+    public static function findById(int $userId): self
     {
         $req = MyPdo::getInstance()->prepare(
             <<<'SQL'
