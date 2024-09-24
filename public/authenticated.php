@@ -23,7 +23,9 @@ $p->appendContent(<<<HTML
         <h2>Page 1</h2>
 HTML
 );
-$p->appendContent('<p>Personne connectée : '.$user->getFirstName());
-
+$p->appendContent(<<<HTML
+            <p>Personne connectée : <a href="user.php">{$user->getFirstName()}</a></p>
+HTML
+);
 
 echo $p->toHTML();

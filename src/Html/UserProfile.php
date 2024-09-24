@@ -25,7 +25,7 @@ class UserProfile
     {
         $html = <<<HTML
         <body>
-            <p>Nom
+            Nom
             <blockquote>{$this->escapeString($this->getUser()->getLastName())}</blockquote></p>
             <p>Prénom
             <blockquote>{$this->escapeString($this->getUser()->getFirstName())}</blockquote></p>
