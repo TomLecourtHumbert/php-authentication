@@ -3,10 +3,8 @@
 declare(strict_types=1);
 
 use Authentication\UserAuthentication;
-use Database\MyPdo;
-use Entity\User;
 use Html\AppWebPage;
-use Html\UserProfile;
+use Html\UserProfileWithAvatar;
 
 $authentication = new UserAuthentication();
 
@@ -15,7 +13,7 @@ $p = new AppWebPage('');
 try {
     // Tentative de connexion
     $user = $authentication->getUser();
-    $userProfile = new UserProfile($user);
+    $userProfile = new UserProfileWithAvatar($user);
     // Si connexion réussie, affichage du profil
     $p->appendContent($userProfile->toHTML());
     $p->setTitle('Profil de '.$user->getFirstName());

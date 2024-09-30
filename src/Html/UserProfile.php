@@ -24,7 +24,7 @@ class UserProfile
     public function toHtml(): string
     {
         $html = <<<HTML
-        <body>
+            <div id="infos">
             Nom
             <blockquote>{$this->escapeString($this->getUser()->getLastName())}</blockquote></p>
             <p>Prénom
@@ -33,7 +33,7 @@ class UserProfile
             <blockquote>{$this->escapeString($this->getUser()->getLogin())}</blockquote></p>
             <p>Téléphone
             <blockquote>{$this->escapeString($this->getUser()->getPhone())}</blockquote></p>
-        </body>
+            </div>
         HTML;
 
         return $html;

@@ -34,7 +34,7 @@ class UserAuthentication
         $html = <<<HTML
         <form action="$action" method="post">
             <input placeholder="Login" type="text" name="$login" value="">
-            <input placeholder="Pass" type="text" name="$password" value="">
+            <input placeholder="Pass" type="password" name="$password" value="">
             <button>{$this->escapeString($submitText)}</button>
         </form>
         HTML;
