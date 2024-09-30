@@ -37,4 +37,24 @@ class UserAvatar
 
         return $res;
     }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+        $this->save();
+        return $this;
+    }
+
+    public function save(): self
+    {
+        $req = MyPdo::getInstance()->prepare(
+            <<<'SQL'
+            UPDATE user
+            SET avatar = :avatar
+            WHERE login = :login
+            SQL
+        );
+        $req->execute(['login' => $this->getId(), 'avatar' => $this->getAvatar()]);
+        return $this;
+    }
 }

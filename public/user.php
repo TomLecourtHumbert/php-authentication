@@ -13,7 +13,8 @@ $p = new AppWebPage('');
 try {
     // Tentative de connexion
     $user = $authentication->getUser();
-    $userProfile = new UserProfileWithAvatar($user);
+    $userProfile = new UserProfileWithAvatar($user, $_SERVER['PHP_SELF']);
+    $userProfile->updateAvatar();
     // Si connexion réussie, affichage du profil
     $p->appendContent($userProfile->toHTML());
     $p->setTitle('Profil de '.$user->getFirstName());
