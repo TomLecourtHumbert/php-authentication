@@ -39,12 +39,15 @@ class UserProfileWithAvatar extends UserProfile
     {
         /*var_dump($_SESSION);
         var_dump($_FILES);*/
-        if (UPLOAD_ERR_OK === $_FILES[self::AVATAR_INPUT_NAME]['error'] && $_FILES[self::AVATAR_INPUT_NAME]['size'] > 0 && is_uploaded_file($_FILES[self::AVATAR_INPUT_NAME]['tmp_name'])) {
-            $user = $this->getUser();
-            $user_avatar = UserAvatar::findById($user->getId());
-            $user_avatar->setAvatar(file_get_contents($_FILES[self::AVATAR_INPUT_NAME]['tmp_name']));
-            unlink($_FILES[self::AVATAR_INPUT_NAME]['tmp_name']);
-            return true;
+        if (isset($_FILES[self::AVATAR_INPUT_NAME])) {
+            if (UPLOAD_ERR_OK === $_FILES[self::AVATAR_INPUT_NAME]['error'] && $_FILES[self::AVATAR_INPUT_NAME]['size'] > 0 && is_uploaded_file($_FILES[self::AVATAR_INPUT_NAME]['tmp_name'])) {
+                $user = $this->getUser();
+                $user_avatar = UserAvatar::findById($user->getId());
+                $user_avatar->setAvatar(file_get_contents($_FILES[self::AVATAR_INPUT_NAME]['tmp_name']));
+                unlink($_FILES[self::AVATAR_INPUT_NAME]['tmp_name']);
+
+                return true;
+            }
         }
 
         return false;

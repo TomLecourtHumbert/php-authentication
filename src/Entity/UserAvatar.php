@@ -51,7 +51,7 @@ class UserAvatar
             <<<'SQL'
             UPDATE user
             SET avatar = :avatar
-            WHERE login = :login
+            WHERE id = :login
             SQL
         );
         $req->execute(['login' => $this->getId(), 'avatar' => $this->getAvatar()]);
